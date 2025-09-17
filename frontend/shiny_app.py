@@ -56,7 +56,8 @@ def server(input):
     )
 
     # Create MCP provider for the FastAPI backend
-    fastapi_mcp_url = "http://localhost:8000/mcp"
+    port = os.getenv("PORT", "8000")
+    fastapi_mcp_url = f"http://127.0.0.1:{port}/mcp"
 
     chat_client = ChatOpenAI(
         model="gpt-4o",

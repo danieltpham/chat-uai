@@ -24,9 +24,17 @@ from frontend.shiny_app import app as shiny_app
 async def lifespan(app: FastAPI):
     """Initialize database and populate with sample data on startup"""
     import os
-    if not os.path.exists("analytics.db"):
-        create_tables()
-        populate_sample_data()
+    try:
+        if not os.path.exists("analytics.db"):
+            print("Creating new database...")
+            create_tables()
+            populate_sample_data()
+            print("Database initialization complete")
+        else:
+            print("Using existing database")
+    except Exception as e:
+        print(f"Database initialization failed: {e}")
+        # Continue startup even if database fails
     yield
 
 # Create the main FastAPI app
@@ -53,7 +61,11 @@ mcp.mount_http()  # This creates /mcp endpoint
 # Add main app health check
 @app.get("/health")
 async def main_health_check():
-    return {"status": "healthy", "service": "chatlas-platform"}
+    try:
+        # Simple health check that doesn't depend on database
+        return {"status": "healthy", "service": "chatlas-platform"}
+    except Exception as e:
+        return {"status": "unhealthy", "error": str(e)}
 
 # Add platform info endpoint
 @app.get("/info")
