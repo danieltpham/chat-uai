@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+duckdb
+duckdb-engine
+pydantic
+pytest
+pytest-asyncio
+httpx
+faker
