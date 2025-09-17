@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from app.api import dimensions, facts, analytics, sql
-from app.database import create_tables, populate_sample_data
+from backend.api import dimensions, facts, analytics, sql
+from backend.database import create_tables, populate_sample_data
 
 app = FastAPI(title="DuckDB Analytics API", version="1.0.0")
 

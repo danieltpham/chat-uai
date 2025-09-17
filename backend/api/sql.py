@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from typing import List, Dict, Any
 import re
-from app.database import get_db
+from backend.database import get_db
 
 router = APIRouter()
 

@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from app.models.star_schema import DimCustomer, DimProduct, DimDate, FactSales
+from backend.models.star_schema import DimCustomer, DimProduct, DimDate, FactSales
 from datetime import date
 
 class TestAnalytics:

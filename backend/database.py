@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
-from app.models.star_schema import Base, DimCustomer, DimProduct, DimDate, FactSales
+from backend.models.star_schema import Base, DimCustomer, DimProduct, DimDate, FactSales
 from faker import Faker
 from datetime import datetime, date, timedelta
 import random

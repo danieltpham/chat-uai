@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import func, extract
-from app.database import get_db
-from app.models.star_schema import FactSales, DimCustomer, DimProduct, DimDate
-from app.schemas.schemas import CategoryAnalytics, MonthlyAnalytics, SalesByCategory, SalesByMonth
+from backend.database import get_db
+from backend.models.star_schema import FactSales, DimCustomer, DimProduct, DimDate
+from backend.schemas.schemas import CategoryAnalytics, MonthlyAnalytics, SalesByCategory, SalesByMonth
 
 router = APIRouter()
 

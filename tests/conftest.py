@@ -145,7 +145,7 @@ def db_session():
     """Create an in-memory database session for ORM tests"""
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
-    from app.models.star_schema import Base
+    from backend.models.star_schema import Base
     
     # Create in-memory DuckDB for testing
     test_engine = create_engine("duckdb:///:memory:")
