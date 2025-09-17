@@ -23,8 +23,8 @@ def get_db():
         db.close()
 
 def create_tables():
-    """Create all tables in the database"""
-    Base.metadata.create_all(bind=engine)
+    """Create all tables in the database if they don't exist"""
+    Base.metadata.create_all(bind=engine, checkfirst=True)
     print("Database tables created successfully!")
 
 def populate_sample_data():

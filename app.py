@@ -9,6 +9,7 @@ Routes:
 - /*         - Shiny web application (ChatLas frontend)
 """
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi_mcp import FastApiMCP
 
@@ -19,11 +20,21 @@ from backend.database import create_tables, populate_sample_data
 # Import Shiny frontend app
 from frontend.shiny_app import app as shiny_app
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initialize database and populate with sample data on startup"""
+    import os
+    if not os.path.exists("analytics.db"):
+        create_tables()
+        populate_sample_data()
+    yield
+
 # Create the main FastAPI app
 app = FastAPI(
     title="ChatLas - From UI to U-AI Platform",
     version="1.0.0",
-    description="AI-powered analytics platform with secure NLP data access"
+    description="AI-powered analytics platform with secure NLP data access",
+    lifespan=lifespan
 )
 
 # Include API routers directly in main app so MCP can see them
@@ -31,13 +42,6 @@ app.include_router(dimensions.router, prefix="/api/v1/dimensions", tags=["dimens
 app.include_router(facts.router, prefix="/api/v1/facts", tags=["facts"])
 app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytics"])
 app.include_router(sql.router, prefix="/api/v1", tags=["sql"])
-
-# Add startup event for database initialization
-@app.on_event("startup")
-async def startup_event():
-    """Initialize database and populate with sample data"""
-    create_tables()
-    populate_sample_data()
 
 # Setup MCP integration - must be before mounting Shiny
 mcp = FastApiMCP(
