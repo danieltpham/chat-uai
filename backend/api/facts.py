@@ -7,7 +7,7 @@ from backend.schemas.schemas import Sales, SalesCreate, SalesUpdate
 
 router = APIRouter()
 
-@router.get("/sales", response_model=List[Sales])
+@router.get("/sales", response_model=List[Sales], tags=["facts"], operation_id="get_sales")
 def get_sales(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """Get all sales with pagination and related data"""
     sales = db.query(FactSales)\
@@ -17,7 +17,7 @@ def get_sales(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
               .offset(skip).limit(limit).all()
     return sales
 
-@router.get("/sales/{sale_id}", response_model=Sales)
+@router.get("/sales/{sale_id}", response_model=Sales, tags=["facts"], operation_id="get_sale_by_id")
 def get_sale(sale_id: int, db: Session = Depends(get_db)):
     """Get a specific sale by ID"""
     sale = db.query(FactSales)\
@@ -29,7 +29,7 @@ def get_sale(sale_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Sale not found")
     return sale
 
-@router.post("/sales", response_model=Sales)
+@router.post("/sales", response_model=Sales, tags=["admin"])
 def create_sale(sale: SalesCreate, db: Session = Depends(get_db)):
     """Create a new sale"""
     # Get the next sale_id
@@ -48,7 +48,7 @@ def create_sale(sale: SalesCreate, db: Session = Depends(get_db)):
                      joinedload(FactSales.date))\
              .filter(FactSales.sale_id == db_sale.sale_id).first()
 
-@router.put("/sales/{sale_id}", response_model=Sales)
+@router.put("/sales/{sale_id}", response_model=Sales, tags=["admin"])
 def update_sale(sale_id: int, sale: SalesUpdate, db: Session = Depends(get_db)):
     """Update a sale"""
     db_sale = db.query(FactSales).filter(FactSales.sale_id == sale_id).first()
@@ -69,7 +69,7 @@ def update_sale(sale_id: int, sale: SalesUpdate, db: Session = Depends(get_db)):
                      joinedload(FactSales.date))\
              .filter(FactSales.sale_id == sale_id).first()
 
-@router.delete("/sales/{sale_id}")
+@router.delete("/sales/{sale_id}", tags=["admin"])
 def delete_sale(sale_id: int, db: Session = Depends(get_db)):
     """Delete a sale"""
     db_sale = db.query(FactSales).filter(FactSales.sale_id == sale_id).first()
@@ -80,7 +80,7 @@ def delete_sale(sale_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Sale deleted successfully"}
 
-@router.get("/sales/by-customer/{customer_id}", response_model=List[Sales])
+@router.get("/sales/by-customer/{customer_id}", response_model=List[Sales], tags=["facts"], operation_id="get_sales_by_customer")
 def get_sales_by_customer(customer_id: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """Get all sales for a specific customer"""
     sales = db.query(FactSales)\
@@ -91,7 +91,7 @@ def get_sales_by_customer(customer_id: int, skip: int = 0, limit: int = 100, db:
               .offset(skip).limit(limit).all()
     return sales
 
-@router.get("/sales/by-product/{product_id}", response_model=List[Sales])
+@router.get("/sales/by-product/{product_id}", response_model=List[Sales], tags=["facts"], operation_id="get_sales_by_product")
 def get_sales_by_product(product_id: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """Get all sales for a specific product"""
     sales = db.query(FactSales)\

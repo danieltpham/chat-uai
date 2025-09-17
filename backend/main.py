@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi_mcp import FastApiMCP
 from backend.api import dimensions, facts, analytics, sql
 from backend.database import create_tables, populate_sample_data
 
@@ -23,3 +24,9 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+mcp = FastApiMCP(
+    app,
+    exclude_tags=["admin", "internal"]
+)
+mcp.mount_http()

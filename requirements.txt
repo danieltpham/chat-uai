@@ -8,3 +8,11 @@ pytest
 pytest-asyncio
 httpx
 faker
+chatlas[mcp]
+shiny[themes]
+openai
+plotly
+shinywidgets
+libsass
+python-dotenv
+fastapi-mcp

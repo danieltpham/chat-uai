@@ -7,7 +7,7 @@ from backend.schemas.schemas import CategoryAnalytics, MonthlyAnalytics, SalesBy
 
 router = APIRouter()
 
-@router.get("/sales-by-category", response_model=CategoryAnalytics)
+@router.get("/sales-by-category", response_model=CategoryAnalytics, tags=["analytics"], operation_id="get_sales_by_category")
 def get_sales_by_category(db: Session = Depends(get_db)):
     """Analytics: Get sales performance by product category"""
     
@@ -38,7 +38,7 @@ def get_sales_by_category(db: Session = Depends(get_db)):
         total_categories=len(sales_data)
     )
 
-@router.get("/sales-by-month", response_model=MonthlyAnalytics)
+@router.get("/sales-by-month", response_model=MonthlyAnalytics, tags=["analytics"], operation_id="get_sales_by_month")
 def get_sales_by_month(year: int = 2023, db: Session = Depends(get_db)):
     """Analytics: Get monthly sales performance for a given year"""
     
@@ -77,7 +77,7 @@ def get_sales_by_month(year: int = 2023, db: Session = Depends(get_db)):
         total_months=len(monthly_data)
     )
 
-@router.get("/top-customers")
+@router.get("/top-customers", tags=["analytics"], operation_id="get_top_customers")
 def get_top_customers(limit: int = 10, db: Session = Depends(get_db)):
     """Analytics: Get top customers by total sales"""
     
@@ -110,7 +110,7 @@ def get_top_customers(limit: int = 10, db: Session = Depends(get_db)):
         "limit": limit
     }
 
-@router.get("/top-products")
+@router.get("/top-products", tags=["analytics"], operation_id="get_top_products")
 def get_top_products(limit: int = 10, db: Session = Depends(get_db)):
     """Analytics: Get top products by total sales"""
     
@@ -146,7 +146,7 @@ def get_top_products(limit: int = 10, db: Session = Depends(get_db)):
         "limit": limit
     }
 
-@router.get("/weekend-vs-weekday-sales")
+@router.get("/weekend-vs-weekday-sales", tags=["analytics"], operation_id="get_weekend_vs_weekday_sales")
 def get_weekend_vs_weekday_sales(db: Session = Depends(get_db)):
     """Analytics: Compare weekend vs weekday sales performance"""
     
@@ -176,7 +176,7 @@ def get_weekend_vs_weekday_sales(db: Session = Depends(get_db)):
         "analysis": "Comparison of sales performance between weekends and weekdays"
     }
 
-@router.get("/sales-summary")
+@router.get("/sales-summary", tags=["analytics"], operation_id="get_sales_summary")
 def get_sales_summary(db: Session = Depends(get_db)):
     """Analytics: Get overall sales summary statistics"""
     

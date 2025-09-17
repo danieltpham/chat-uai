@@ -102,7 +102,7 @@ def sanitize_sql(sql_query: str) -> str:
     
     return sql_query.strip()
 
-@router.get("/sql")
+@router.get("/sql", tags=["sql"], operation_id="execute_sql")
 def execute_custom_sql(
     q: str = Query(..., description="SQL query to execute (SELECT only)"),
     limit: int = Query(100, le=1000, description="Maximum number of rows to return"),
@@ -181,7 +181,7 @@ def execute_custom_sql(
         else:
             raise HTTPException(status_code=500, detail=f"Database error: {error_msg}")
 
-@router.get("/sql/tables")
+@router.get("/sql/tables", tags=["sql"], operation_id="get_sql_tables")
 def get_available_tables(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """
     Get information about available tables and their schemas.
@@ -231,7 +231,7 @@ def get_available_tables(db: Session = Depends(get_db)) -> Dict[str, Any]:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving table information: {str(e)}")
 
-@router.get("/sql/examples")
+@router.get("/sql/examples", tags=["sql"], operation_id="get_sql_examples")
 def get_sql_examples() -> Dict[str, Any]:
     """
     Get example SQL queries that users can try.
