@@ -8,7 +8,7 @@ import os
 # UI Text Constants
 APP_TITLE = "A simple SQL - FastAPI - MCP - Chatbot UI"
 WINDOW_TITLE = "ChatUAI by Daniel Pham"
-APP_DESCRIPTION = "Connected to DuckDB Analytics API with MCP tools for data analysis"
+APP_DESCRIPTION = "Proof-of-concept: Secure NLP interfaces for SQL databases in hours, not months. Deploy cutting-edge AI while maintaining existing security models."
 
 # Chat Welcome Messages
 WELCOME_MESSAGE = '''

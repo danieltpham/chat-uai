@@ -1,5 +1,7 @@
 # From UI to U-AI
 
+🚀 **Live Demo**: [https://uai.danielpham.com.au/](https://uai.danielpham.com.au/)
+
 A proof-of-concept repo featuring a **FastAPI backend** with **DuckDB SQL database (star schema)**, **FastAPI -> MCP (Model Context Protocol) integration**, and **AI-powered Chatbot Shiny Interface** for natural language data retrieval.
 
 This PoC proves that **any organization** with SQL database and FastAPI can:
@@ -211,8 +213,9 @@ OPENAI_API_KEY=your_openai_api_key_here
 # Start the FastAPI server with MCP integration
 python run.py
 ```
-- **API Documentation**: `http://localhost:8000/docs`
-- **MCP Endpoint**: `http://localhost:8000/mcp`
+- **API Documentation**: `https://uai.danielpham.com.au/docs`
+- **MCP Endpoint**: `https://uai.danielpham.com.au/mcp`
+- **Live Web App**: `https://uai.danielpham.com.au/`
 
 ### 4. Use ChatLas
 
@@ -227,7 +230,7 @@ python main.py
 cd chatlas
 python run_shiny.py
 ```
-- **Web Interface**: `http://localhost:8080`
+- **Web Interface**: `https://uai.danielpham.com.au/`
 
 ## 🧪 Testing
 
@@ -351,7 +354,7 @@ The application automatically generates sample data on startup:
 
 ### Create a Customer
 ```bash
-curl -X POST "http://localhost:8000/api/v1/dimensions/customers" \
+curl -X POST "https://uai.danielpham.com.au/api/v1/dimensions/customers" \
      -H "Content-Type: application/json" \
      -d '{
        "customer_name": "John Doe",
@@ -362,30 +365,30 @@ curl -X POST "http://localhost:8000/api/v1/dimensions/customers" \
 
 ### Get Sales Analytics
 ```bash
-curl "http://localhost:8000/api/v1/analytics/sales-by-category"
+curl "https://uai.danielpham.com.au/api/v1/analytics/sales-by-category"
 ```
 
 ### Monthly Sales Report
 ```bash
-curl "http://localhost:8000/api/v1/analytics/sales-by-month?year=2023"
+curl "https://uai.danielpham.com.au/api/v1/analytics/sales-by-month?year=2023"
 ```
 
 ### Execute Custom SQL Queries
 ```bash
 # Simple query
-curl "http://localhost:8000/api/v1/sql?q=SELECT * FROM dim_customer LIMIT 5"
+curl "https://uai.danielpham.com.au/api/v1/sql?q=SELECT * FROM dim_customer LIMIT 5"
 
 # Analytics query
-curl "http://localhost:8000/api/v1/sql?q=SELECT category, COUNT(*) FROM dim_product GROUP BY category"
+curl "https://uai.danielpham.com.au/api/v1/sql?q=SELECT category, COUNT(*) FROM dim_product GROUP BY category"
 
 # Complex join query
-curl "http://localhost:8000/api/v1/sql?q=SELECT c.customer_name, SUM(f.total_amount) as total_sales FROM fact_sales f JOIN dim_customer c ON f.customer_id = c.customer_id GROUP BY c.customer_name ORDER BY total_sales DESC LIMIT 10"
+curl "https://uai.danielpham.com.au/api/v1/sql?q=SELECT c.customer_name, SUM(f.total_amount) as total_sales FROM fact_sales f JOIN dim_customer c ON f.customer_id = c.customer_id GROUP BY c.customer_name ORDER BY total_sales DESC LIMIT 10"
 
 # Get available tables and schemas
-curl "http://localhost:8000/api/v1/sql/tables"
+curl "https://uai.danielpham.com.au/api/v1/sql/tables"
 
 # Get example queries
-curl "http://localhost:8000/api/v1/sql/examples"
+curl "https://uai.danielpham.com.au/api/v1/sql/examples"
 ```
 
 ## 🤖 ChatLas AI Assistant
@@ -539,7 +542,7 @@ mcp.mount_http()  # Creates /mcp endpoint
 ```python
 # ChatLas connects automatically
 chat = ChatOpenAI(model="gpt-4o")
-await chat.register_mcp_tools_http_stream_async("http://your-api.com/mcp")
+await chat.register_mcp_tools_http_stream_async("https://your-api.com/mcp")
 ```
 
 ### 🌟 Scaling Considerations
