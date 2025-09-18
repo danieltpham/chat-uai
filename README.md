@@ -97,31 +97,66 @@ graph TB
 
 ## 📊 Star Schema Design
 
-```
-        DimCustomer         DimProduct         DimDate
-        +-----------+       +-----------+      +-----------+
-        | customer_id|       | product_id|      | date_id   |
-        | name       |       | name      |      | date      |
-        | email      |       | category  |      | year      |
-        | city       |       | brand     |      | month     |
-        | ...        |       | price     |      | quarter   |
-        +-----------+       +-----------+      | ...       |
-              |                   |            +-----------+
-              |                   |                  |
-              +-------------------+------------------+
-                                  |
-                            +-----------+
-                            | FactSales |
-                            +-----------+
-                            | sale_id   |
-                            | customer_id (FK)
-                            | product_id (FK)
-                            | date_id (FK)
-                            | quantity  |
-                            | total_amount
-                            | discount  |
-                            | tax       |
-                            +-----------+
+```mermaid
+erDiagram
+    DimCustomer {
+        int customer_id PK
+        string customer_name
+        string email
+        string phone
+        string address
+        string city
+        string state
+        string country
+        string postal_code
+        date registration_date
+        string customer_segment
+    }
+
+    DimProduct {
+        int product_id PK
+        string product_name
+        string category
+        string brand
+        decimal price
+        string description
+        string sku
+        decimal cost
+        decimal weight
+        string dimensions
+    }
+
+    DimDate {
+        int date_id PK
+        date date
+        int year
+        int month
+        int quarter
+        int day_of_week
+        string month_name
+        string day_name
+        boolean is_weekend
+        boolean is_holiday
+    }
+
+    FactSales {
+        int sale_id PK
+        int customer_id FK
+        int product_id FK
+        int date_id FK
+        int quantity
+        decimal unit_price
+        decimal total_amount
+        decimal discount_amount
+        decimal tax_amount
+        decimal net_amount
+        string sales_channel
+        string payment_method
+    }
+
+    DimCustomer ||--o{ FactSales : "customer_id"
+    DimProduct ||--o{ FactSales : "product_id"
+    DimDate ||--o{ FactSales : "date_id"
 ```
 
 ## 🚀 Features
