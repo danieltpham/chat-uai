@@ -3,13 +3,20 @@
 ChatLas Shiny App - Web interface for the DuckDB Analytics Chatbot
 """
 
-import os
 from dotenv import load_dotenv
 from chatlas import ChatOpenAI
+from faicons import icon_svg
 from shiny import ui, App
 
 # Import data analysis utilities
 from .tools import data_utils, chain_tools
+from .config import (
+    APP_TITLE, APP_DESCRIPTION, WELCOME_MESSAGE,
+    SYSTEM_PROMPT, MCP_CONNECTING_MESSAGE, MCP_SUCCESS_MESSAGE,
+    MCP_FAILURE_MESSAGE, MCP_CONTINUE_MESSAGE, MODEL_NAME, MCP_URL,
+    CHAT_ID, CSS_CLASSES, WINDOW_TITLE
+)
+from .theme import UAI_THEME
 
 # Load environment variables
 load_dotenv()
@@ -17,72 +24,45 @@ load_dotenv()
 # UI setup
 app_ui = ui.page_fixed(
     ui.div(
-        ui.h1("🚀 ChatLas - Analytics Chatbot", class_="text-center mb-3"),
+        ui.h1(APP_TITLE, class_=CSS_CLASSES["title"]),
         ui.p(
-            "Connected to DuckDB Analytics API with MCP tools for data analysis",
-            class_="text-center text-muted mb-4"
+            APP_DESCRIPTION,
+            class_=CSS_CLASSES["description"]
         ),
-        ui.chat_ui(id="my_chat"),
-        class_="container-fluid"
+        ui.chat_ui(id=CHAT_ID,
+                    messages=[WELCOME_MESSAGE],
+                   icon_assistant=icon_svg("twitch"),),
     ),
-    # ui.include_css("""
-    # .container-fluid {
-    #     max-width: 1200px;
-    #     margin: 0 auto;
-    #     padding: 20px;
-    # }
-
-    # h1 {
-    #     color: #2c3e50;
-    #     font-weight: 600;
-    # }
-
-    # .text-muted {
-    #     font-size: 1.1rem;
-    # }
-    # """)
+    theme=UAI_THEME,
+    # full_width=True,
+    window_title=WINDOW_TITLE
 )
 
 def server(input):
-    chat = ui.Chat(
-        id="my_chat",
-        messages=[
-            "Hello! I'm ChatLas, your DuckDB analytics assistant. I can help you analyze sales data, customer information, and product details. Try asking me something like:",
-            "• 'What are all the product categories?'",
-            "• 'Show me sales by category'",
-            "• 'Who are the top 5 customers?'",
-            "• 'Analyze weekend vs weekday sales'"
-        ],
-    )
+    chat = ui.Chat(id=CHAT_ID)
 
     # Create MCP provider for the FastAPI backend
-    fastapi_mcp_url = "/mcp"
+    fastapi_mcp_url = MCP_URL
 
     chat_client = ChatOpenAI(
-        model="gpt-4o",
-        system_prompt="""You are ChatLas, an AI assistant that helps users analyze data from a DuckDB analytics database.
-        You have access to MCP tools that can query the FastAPI backend for:
-        - Product information and categories (get_products, get_customers, get_dates)
-        - Sales data (get_sales, get_sales_by_customer, get_sales_by_product)
-        - Pre-built analytics reports (get_sales_by_category, get_sales_by_month, get_top_customers, etc.)
-        - Custom SQL queries (execute_sql, get_sql_tables, get_sql_examples)
-
-        Always use the provided MCP tools to fetch data instead of making assumptions.
-        Present data in a clear, readable format. When showing lists or tables, format them nicely.
-        Be conversational and helpful.
-
-        For product categories specifically, call the get_products tool and extract unique categories from the results."""
+        model=MODEL_NAME,
+        system_prompt=SYSTEM_PROMPT
     )
+
+    # Store connections for cleanup
+    connections = []
 
     # Initialize MCP tools and local tools on startup
     async def initialize_tools():
         try:
-            print("Connecting to MCP server...")
-            await chat_client.register_mcp_tools_http_stream_async(url=fastapi_mcp_url)
-            print("✓ MCP tools registered successfully")
+            print(MCP_CONNECTING_MESSAGE)
+            connection = await chat_client.register_mcp_tools_http_stream_async(url=fastapi_mcp_url)
+            if connection:
+                connections.append(connection)
+            print(MCP_SUCCESS_MESSAGE)
         except Exception as e:
-            print(f"⚠️  Failed to connect to MCP: {e}")
-            print("   Continuing without MCP tools.")
+            print(MCP_FAILURE_MESSAGE.format(error=e))
+            print(MCP_CONTINUE_MESSAGE)
 
         # Register data analysis utilities (for processing the MCP results)
         chat_client.register_tool(data_utils.get_unique_values)

@@ -9,10 +9,12 @@ pytest-asyncio
 httpx
 faker
 chatlas[mcp]
-shiny[themes]
+shiny
 openai
 plotly
 shinywidgets
+shinyswatch
 libsass
 python-dotenv
 fastapi-mcp
+faicons
