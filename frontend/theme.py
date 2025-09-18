@@ -6,7 +6,7 @@ UAI_THEME = shinyswatch.theme.flatly \
     secondary="#585657",
     success="#4D736F",
     info="#9DA6C9",
-    warning="#F5902F",
+    warning="#ffc900",
     danger="#090909",
     light="#FFFFFF",
     dark="#090909",
@@ -25,7 +25,7 @@ UAI_THEME = shinyswatch.theme.flatly \
       --line-200:  #E4E3E2;
       --acc-pink:  #FB8FE6;
       --acc-teal:  #4D736F;
-      --acc-coral: #F5902F;
+      --acc-coral: #ffc900;
       --acc-lilac: #9DA6C9;
       --radius-xl: 24px;
       --radius-md: 14px;

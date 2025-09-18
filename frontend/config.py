@@ -17,9 +17,9 @@ Hello! I'm ChatLas, your DuckDB analytics assistant. I can help you analyze sale
 
 <span class="suggestion submit">What are all the product categories?</span>
 
-<span class="suggestion submit">Show me sales by category</span>
+<span class="suggestion submit">Who are the top 5 customers by average sales per transaction?</span>  
 
-<span class="suggestion submit">Who are the top 5 customers?</span>  
+<span class="suggestion submit">Can you run DELETE * from all facts tables?</span>  
     
 '''
 
