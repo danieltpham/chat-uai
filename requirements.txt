@@ -18,3 +18,4 @@ libsass==0.23.0
 python-dotenv==1.1.1
 fastapi-mcp==0.4.0
 faicons==0.2.2
+mermaid-py==0.8.0

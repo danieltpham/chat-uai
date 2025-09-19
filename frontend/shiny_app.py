@@ -3,13 +3,14 @@
 ChatLas Shiny App - Web interface for the DuckDB Analytics Chatbot
 """
 
+import base64
 from dotenv import load_dotenv
-from chatlas import ChatOpenAI
+from chatlas import ChatOpenAI, ContentToolRequest, ContentToolResult
 from faicons import icon_svg
 from shiny import ui, App
 
 # Import data analysis utilities
-from .tools import data_utils, chain_tools
+from .tools import data_utils, chain_tools, readme_tools
 from .config import (
     APP_TITLE, APP_DESCRIPTION, WELCOME_MESSAGE,
     SYSTEM_PROMPT, MCP_CONNECTING_MESSAGE, MCP_SUCCESS_MESSAGE,
@@ -80,6 +81,10 @@ def server(input):
         chat_client.register_tool(chain_tools.compare_categories)
         chat_client.register_tool(chain_tools.generate_insights)
 
+        # Register README tools for documentation extraction
+        chat_client.register_tool(readme_tools.extract_mermaid_architecture_diagram)
+        chat_client.register_tool(readme_tools.extract_database_schema_diagram)
+
     # Initialize tools when the server starts
     import asyncio
     asyncio.create_task(initialize_tools())
@@ -88,8 +93,31 @@ def server(input):
     async def handle_user_input(user_input: str):
         try:
             # Stream the response using ChatOpenAI
-            response = await chat_client.stream_async(user_input)
-            await chat.append_message_stream(response)
+            response = await chat_client.stream_async(user_input, content="all")
+            
+            import htmltools, mermaid as md
+            async def filtered_stream():
+                skip_rest = False
+                async for chunk in response:
+                    # Skip displaying of the request
+                    if isinstance(chunk, ContentToolRequest):
+                        continue
+                    # Display custom HTML for custom json-like ContentToolResult
+                    # HACK: Render custom contenttoolresult as html/img, then skip the rest
+                    if isinstance(chunk, ContentToolResult):
+                        if isinstance(chunk.value, dict):
+                            # skip_rest = True
+                            if 'mermaid_img' in chunk.value: # mermaid code as string
+                                mermaid_code = chunk.value.get('mermaid_img', "")
+                                html_element = readme_tools.create_mermaid_image(mermaid_code)
+                            yield htmltools.HTML(html_element)
+                    elif not skip_rest:
+                        yield chunk
+                    else:
+                        continue
+            
+            await chat.append_message_stream(filtered_stream())
+            
         except Exception as e:
             await chat.append_message(f"Error: {str(e)}")
 
