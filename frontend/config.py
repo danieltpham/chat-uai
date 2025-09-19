@@ -6,9 +6,9 @@ Contains all text strings, messages, and UI constants.
 import os
 
 # UI Text Constants
-APP_TITLE = "A simple SQL - FastAPI - MCP - Chatbot UI"
+APP_TITLE = "SQL - FastAPI - MCP - Shiny Chatbot"
 WINDOW_TITLE = "ChatUAI by Daniel Pham"
-APP_DESCRIPTION = "Proof-of-concept: Secure NLP interfaces for SQL databases in hours, not months. Deploy cutting-edge AI while maintaining existing security models."
+APP_DESCRIPTION = "PoC NLP interfaces for FastAPI - SQL DB in hours, not days."
 
 # Chat Welcome Messages
 
@@ -66,7 +66,7 @@ Always pass the actual data from MCP tools to local analysis tools.
 
 Never call local tools without data!
 
-For architecture or database schema diagrams, call extract_mermaid_architecture_diagram() or extract_database_schema_diagram() respectively. After calling these tools, simply say "I've generated the image" and stop there. 
+For architecture or database schema diagrams, always call extract_mermaid_architecture_diagram() or extract_database_schema_diagram() respectively. After calling these tools, simply say "I've generated the image" and stop there. 
 """
 
 # Status Messages
@@ -76,7 +76,7 @@ MCP_FAILURE_MESSAGE = "⚠️  Failed to connect to MCP: {error}"
 MCP_CONTINUE_MESSAGE = "   Continuing without MCP tools."
 
 # Configuration
-MODEL_NAME = "gpt-4o-mini"
+MODEL_NAME = "gpt-4o"
 MAX_TOKENS = 500
 MCP_URL = f"http://127.0.0.1:{os.getenv('PORT', '8000')}/mcp"
 CHAT_ID = "my_chat"
