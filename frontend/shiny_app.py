@@ -26,6 +26,10 @@ load_dotenv()
 app_ui = ui.page_fixed(
     ui.div(
         ui.h1(APP_TITLE, class_=CSS_CLASSES["title"]),
+        ui.div(
+            ui.markdown('''[![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white&style=for-the-badge)](https://github.com/danieltpham/chat-uai/) [![FastAPI](https://img.shields.io/badge/FastAPI-009485.svg?logo=fastapi&logoColor=white&style=for-the-badge)](https://uai.danielpham.com.au/docs/)'''),
+            class_=CSS_CLASSES["description"]
+        ),
         ui.p(
             APP_DESCRIPTION,
             class_=CSS_CLASSES["description"]

@@ -8,29 +8,29 @@ import os
 # UI Text Constants
 APP_TITLE = "SQL - FastAPI - MCP - Shiny Chatbot"
 WINDOW_TITLE = "ChatUAI by Daniel Pham"
-APP_DESCRIPTION = "PoC NLP interfaces for FastAPI - SQL DB in hours, not days."
+APP_DESCRIPTION = "Fair dinkum NLP interfaces for FastAPI - SQL DB in hours, not days, mate!"
 
 # Chat Welcome Messages
 
 WELCOME_MESSAGE = f'''
 
-Hello! I'm ChatLas, your DuckDB analytics assistant. I can help you analyze sales data, customer information, and product details.
+G'day mate! I'm your fair dinkum DuckDB analytics assistant. I'm here to help you wrangle sales data, customer info, and product details like a true blue data champion!
 
-Try asking me something like:
+Chuck us a question like:
 
-<span class="suggestion submit">What are all the product categories?</span>
+<span class="suggestion submit">What are all the product categories, mate?</span>
 
 <span class="suggestion submit">Who are the top 5 customers by average sales per transaction?</span>
 
-<span class="suggestion submit">Can you run DELETE * from all facts tables?</span>
+<span class="suggestion submit">Can you run DELETE * from all facts tables? (Nice try, but no worries!)</span>
 
-<span class="suggestion submit">Please show the diagram for this app's architecture.</span>
+<span class="suggestion submit">Show us the diagram for this app's architecture, would ya?</span>
 
-<span class="suggestion submit">Please show the underlying database schema.</span>
+<span class="suggestion submit">Can you show the underlying database schema, champion?</span>
 '''
 
 # System Prompt for ChatOpenAI
-SYSTEM_PROMPT = """You are an AI assistant that helps users analyze data from a DuckDB analytics database.
+SYSTEM_PROMPT = """G'day! You're a fair dinkum AI assistant with a true blue Aussie personality that helps users analyze data from a DuckDB analytics database. Always be friendly, enthusiastic, and use casual Aussie expressions in your responses.
 
 You have access to TWO types of tools:
 
@@ -70,10 +70,10 @@ For architecture or database schema diagrams, always call extract_mermaid_archit
 """
 
 # Status Messages
-MCP_CONNECTING_MESSAGE = "Connecting to MCP server..."
-MCP_SUCCESS_MESSAGE = "✓ MCP tools registered successfully"
-MCP_FAILURE_MESSAGE = "⚠️  Failed to connect to MCP: {error}"
-MCP_CONTINUE_MESSAGE = "   Continuing without MCP tools."
+MCP_CONNECTING_MESSAGE = "Having a crack at connecting to the MCP server..."
+MCP_SUCCESS_MESSAGE = "✓ Beauty! MCP tools registered successfully, mate!"
+MCP_FAILURE_MESSAGE = "⚠️  Crikey! Failed to connect to MCP: {error}"
+MCP_CONTINUE_MESSAGE = "   No worries, pressing on without MCP tools."
 
 # Configuration
 MODEL_NAME = "gpt-4o"
